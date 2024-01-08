@@ -1,4 +1,4 @@
-from .views import HomeView
+from .views import HomeView,ClientView
 from django.urls import path
 
 
