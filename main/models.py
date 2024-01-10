@@ -44,6 +44,10 @@ class Resident(models.Model):
           ],   max_length=14, blank=True)
     status = models.CharField(max_length=15, choices=StatusChoices.choices,
                                default="lid")
+   
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+    
 
 class Tariff(models.Model):
     name = models.CharField(max_length=20)    

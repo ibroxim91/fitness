@@ -84,7 +84,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fitness_crm.wsgi.application'
-
+SESSION_COOKIE_AGE = 2500000
 
 
 
