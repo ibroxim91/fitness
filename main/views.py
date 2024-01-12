@@ -1,5 +1,7 @@
+from typing import Any
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import CreateView,UpdateView,DeleteView
 from locals import lang_packages
 import datetime
 from datetime import timedelta
@@ -21,14 +23,6 @@ class HomeView(View):
             views = views + 1
             request.session["views"] = views
             request.session.save()
-        print()
-        print( views)
-        print()
-        # views = request.COOKIES.get("views",0 )
-        # print()
-        # print(request.COOKIES)
-        # print()
-        # views = int(views) + 1
         response = render(request, "index.html",{"views":views,} )
      
         # response.set_cookie("views",views , max_age=15)
@@ -38,3 +32,30 @@ class ClientView(View):
     def get(self, request):
         residents = Resident.objects.all()
         return render(request, "clients.html" ,{"residents":residents})
+
+class AddClientView(CreateView):
+    template_name = "add_client.html"
+    model = Resident
+    fields = "__all__"
+    success_url = "/clients"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        context["form_title"] = "Mijoz qo'shish"
+        context["button_title"] = "Qo'shish"
+        return context
+
+class UpdateClientView(UpdateView):
+    template_name = "add_client.html"
+    model = Resident
+    fields = "__all__"
+    success_url = "/clients"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        context["form_title"] = "Mijoz ma'lumotlarini tahrirlash"
+        context["button_title"] = "Saqlash"
+        return context
+
+    # resident = Resident.objects.get(id=1)
+    # form = UpdateClientViewForm(isinstance=resident)

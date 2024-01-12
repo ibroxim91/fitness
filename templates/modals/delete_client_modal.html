@@ -1,0 +1,37 @@
+<div class="delete_modal ">
+
+    <h1>Mijoz ma'lumotlarini o'chirishni istaysizmi </h1>
+
+    <div class="d-flex">
+        <a href="#" class="open_modal btn btn-success"> Yo'q</a>
+        <a href="#" class="btn btn-danger"> Xa</a>
+    </div>
+
+</div>
+
+<style>
+    .delete_modal{
+        position: fixed;
+        width: 30%;
+        padding: 30px;
+        box-shadow: 0px 0px 5px black;
+        top: -100%;
+        left: 50%;
+        background: #fff;
+        transform: translateX(-50%);
+        transition: 0.8s;
+    }
+
+    .show_modal{
+        top: 100px;
+    }
+</style>
+
+
+<script>
+    document.querySelectorAll(".open_modal").forEach( function(item) {
+        item.addEventListener("click", function(){
+                document.querySelector('.delete_modal').classList.toggle('show_modal')
+        }, false);
+    })
+</script>

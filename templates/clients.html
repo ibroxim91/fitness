@@ -13,9 +13,18 @@
                 <li>
                     <i class="fa fa-dashboard"></i>  <a href="index.html">Bosh sahifa </a>
                 </li>
+
                 <li class="active">
                     <i class="fa fa-table"></i> Mijozlar
                 </li>
+
+
+                <li class="active">
+                    <a class="btn btn-success" href="/add_client">
+                        <i class="fa fa-plus"></i> 
+                    </a>
+                </li>
+
             </ol>
         </div>
     </div>
@@ -42,10 +51,10 @@
                             <td> {{ r.full_name }} </td>
                             <td>{{ r.phone  }}</td>
                             <td>{{ r.status }}</td>
-                            <td>  
-                                <a href="#"> <i class="fa fa-edit fa-2x "></i> </a>
-                                <a href="#"> <i class="fa fa-trash fa-2x text-danger"></i> </a>
-                            </td>
+            <td>  
+                <a href="/update_client/{{ r.id }}"> <i class="fa fa-edit fa-2x "></i> </a>
+<a href="#" class="open_modal"> <i class="fa fa-trash fa-2x text-danger"></i> </a>
+            </td>
                         </tr>
                         {% endfor %}
                    
@@ -56,5 +65,7 @@
 
         </div>
         </div>
+
+    {% include 'modals/delete_client_modal.html' %}    
 
 {% endblock content %}
