@@ -4,7 +4,7 @@
 
     <div class="d-flex">
         <a href="#" class="open_modal btn btn-success"> Yo'q</a>
-        <a href="#" onclick="delete_client()" class="btn btn-danger"> Xa</a>
+        <a href="#" onclick="delete_client()" class="  btn btn-danger"> Xa</a>
     </div>
 
 </div>
@@ -47,9 +47,8 @@
 
     function delete_client() {
 
-        console.log("resident_id = ", resident_id)
         let new_url = URL + `/${resident_id}`
-  
+
         fetch(new_url, {
             method: "POST",
             body: JSON.stringify( {"resident_id": resident_id} ),
@@ -60,6 +59,12 @@
             return response.json()
         }).then( (response) =>{
             console.log(response)
+           
+            if(response.status == 'success'){
+                document.getElementById('student_data_'+resident_id).style.display = 'none';
+                document.querySelector('.open_modal').click()
+            }    
+
         })
     }
 </script>
