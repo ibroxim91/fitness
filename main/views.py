@@ -7,10 +7,43 @@ import datetime
 from datetime import timedelta
 from .models import Resident
 # Create your views here.
-
 today = datetime.datetime.now()
 end = today + timedelta(seconds=15)
+from django.contrib.syndication.views import Feed
+from django.urls import reverse
+from django.http import JsonResponse
+import json
 
+
+def delete_client(request,pk):
+    try:
+        resident = Resident.objects.get(pk=pk)
+    except:
+        return JsonResponse({"status":"error"})
+    else:
+        resident.delete()   
+        return JsonResponse({"status":"success"})
+
+
+
+
+class LatestEntriesFeed(Feed):
+    title = "Police beat site news"
+    link = "/sitenews/"
+    description = "Updates on changes and additions to police beat central."
+
+    def items(self):
+        return Resident.objects.all()[:5]
+
+    def item_title(self, item):
+        return item.first_name
+
+    def item_description(self, item):
+        return item.full_name
+
+    # item_link is only needed if NewsItem has no get_absolute_url method.
+    def item_link(self, item):
+        return "/client/1"
 
 class HomeView(View):
 

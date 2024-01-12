@@ -46,14 +46,14 @@
                     </thead>
                     <tbody>
                         {% for r in residents %}
-                        <tr>
+                        <tr id="student_data_{{ r.id }}">
                             <td> {{ forloop.counter }} </td>
                             <td> {{ r.full_name }} </td>
                             <td>{{ r.phone  }}</td>
                             <td>{{ r.status }}</td>
             <td>  
                 <a href="/update_client/{{ r.id }}"> <i class="fa fa-edit fa-2x "></i> </a>
-<a href="#" class="open_modal"> <i class="fa fa-trash fa-2x text-danger"></i> </a>
+<a href="#" class="open_modal" data-id="{{ r.id }}"   > <i class="fa fa-trash fa-2x text-danger"></i> </a>
             </td>
                         </tr>
                         {% endfor %}
