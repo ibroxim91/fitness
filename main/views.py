@@ -1,11 +1,11 @@
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import CreateView,UpdateView,DeleteView
 from locals import lang_packages
 import datetime
 from datetime import timedelta
-from .models import Resident
+from .models import Resident,Tariff
 # Create your views here.
 today = datetime.datetime.now()
 end = today + timedelta(seconds=15)
@@ -66,15 +66,42 @@ class ClientView(View):
         residents = Resident.objects.all()
         return render(request, "clients.html" ,{"residents":residents})
 
+
+class TarifsView(View):
+    def get(self, request):
+        tarifs = Tariff.objects.all()
+        return render(request, "tarifs.html" ,{"tarifs_":tarifs})
+    
+
 class AddClientView(CreateView):
     template_name = "add_client.html"
     model = Resident
     fields = "__all__"
     success_url = "/clients"
 
+    def form_valid(self, form):
+        resident = form.save()
+        if resident.status == "active":
+            resident.balans -= resident.tarif.price
+            resident.save()
+        return redirect(self.success_url)
+    
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context =  super().get_context_data(**kwargs)
         context["form_title"] = "Mijoz qo'shish"
+        context["button_title"] = "Qo'shish"
+        return context
+
+class AddTarifView(CreateView):
+    template_name = "add_client.html"
+    model = Tariff
+    fields = "__all__"
+    success_url = "/tarifs"
+
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context =  super().get_context_data(**kwargs)
+        context["form_title"] = "Tarif qo'shish"
         context["button_title"] = "Qo'shish"
         return context
 

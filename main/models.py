@@ -35,6 +35,15 @@ class StatusChoices(models.TextChoices):
 
 
 
+class Tariff(models.Model):
+    name = models.CharField(max_length=20)    
+    price = models.PositiveBigIntegerField(default=0)
+    text = models.TextField(blank=True)  
+
+    def __str__(self):
+        return self.name  
+
+
 class Resident(models.Model):
     first_name =  models.CharField(  blank=True, max_length=15, verbose_name='first name')
     last_name = models.CharField(blank=True, max_length=15, verbose_name='last name')
@@ -44,14 +53,13 @@ class Resident(models.Model):
           ],   max_length=14, blank=True)
     status = models.CharField(max_length=15, choices=StatusChoices.choices,
                                default="lid")
+    tarif = models.ForeignKey(Tariff, null=True, blank=True, on_delete=models.CASCADE)
+    balans = models.IntegerField(default=0)
+    
    
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
     
 
-class Tariff(models.Model):
-    name = models.CharField(max_length=20)    
-    price = models.PositiveBigIntegerField(default=0)
-    text = models.TextField(blank=True)    
 
 
