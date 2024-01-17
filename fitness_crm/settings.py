@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -92,6 +93,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'fitness_crm.wsgi.application'
 SESSION_COOKIE_AGE = 2500000
 
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URL = '/'
 
 
 # Database
@@ -155,9 +158,7 @@ STATICFILES_DIRS = (
     ( os.path.join(BASE_DIR, 'staticfiles') ),
 )
 
-LOGIN_URL = "/login"
 
-LOGIN_REDIRECT_URL = "/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

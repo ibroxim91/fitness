@@ -152,12 +152,16 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
+                    
                     <li {% if page_ == 'home'%} class="active" {% endif %}>
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i>
                             {{ home }}
                             
                             </a>
                     </li>
+
+                    {% if request.user.position == 'admin' %}
+                   
                     <li  {% if page_ == 'clients_'%} class="active" {% endif %}>
                         <a href="/clients"><i class="fa fa-fw fa-users"></i> 
                           
@@ -170,12 +174,16 @@
                             {{ tarifs  }}
                         </a>
                     </li>
-
+                    {% endif %}
+                    
+                    {% if request.user.position == 'cashier' %}
+                    
                     <li  {% if page_ == 'payments'%} class="active" {% endif %}>
                         <a href="/{{ request.LANGUAGE_CODE }}/finance/payments"><i class="fa fa-fw fa-money"></i> 
                             {{ payments  }}
                         </a>
                     </li>
+                    {% endif %}
 
                     <!-- <li>
                         <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>

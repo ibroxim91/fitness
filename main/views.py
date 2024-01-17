@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render ,get_object_or_404
 from django.views import View
 from django.views.generic import CreateView,UpdateView,DeleteView
 from locals import lang_packages
@@ -13,11 +13,16 @@ from django.contrib.syndication.views import Feed
 from django.urls import reverse
 from django.http import JsonResponse
 import json
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from .my_permissions import MyPermissionControl
 
-
+# @user_passes_test(lambda user: user.is_superuser)
+# @permission_required("main.add_resident")
+@login_required
 def delete_client(request,pk):
     try:
-        resident = Resident.objects.get(pk=pk)
+        resident = get_object_or_404(Resident,pk=pk ) 
     except:
         return JsonResponse({"status":"error"})
     else:
@@ -45,9 +50,15 @@ class LatestEntriesFeed(Feed):
     def item_link(self, item):
         return "/client/1"
 
-class HomeView(View):
+class HomeView(MyPermissionControl, View):
+
+    permission_required = "main.add_resident" 
+    permission_denied_message = "You do not have permission to"   
 
     def get(self, request):
+        print()
+        print( request.user.position )
+        print()
         views = request.session.get("views")
         if views is  None:
             views = 1
@@ -61,19 +72,20 @@ class HomeView(View):
         # response.set_cookie("views",views , max_age=15)
         return response
 
-class ClientView(View):
+class ClientView(MyPermissionControl,View):
+
     def get(self, request):
         residents = Resident.objects.all()
         return render(request, "clients.html" ,{"residents":residents,"page_":"clients_"})
+  
 
-
-class TarifsView(View):
+class TarifsView(MyPermissionControl,View):
     def get(self, request):
         tarifs = Tariff.objects.all()
         return render(request, "tarifs.html" ,{"tarifs_":tarifs,"page_":"tarifs"})
     
 
-class AddClientView(CreateView):
+class AddClientView(MyPermissionControl, CreateView):
     template_name = "add_client.html"
     model = Resident
     fields = "__all__"
@@ -92,7 +104,7 @@ class AddClientView(CreateView):
         context["button_title"] = "Qo'shish"
         return context
 
-class AddTarifView(CreateView):
+class AddTarifView(MyPermissionControl,CreateView):
     template_name = "add_client.html"
     model = Tariff
     fields = "__all__"
@@ -105,7 +117,7 @@ class AddTarifView(CreateView):
         context["button_title"] = "Qo'shish"
         return context
 
-class UpdateClientView(UpdateView):
+class UpdateClientView(MyPermissionControl,UpdateView):
     template_name = "add_client.html"
     model = Resident
     fields = "__all__"

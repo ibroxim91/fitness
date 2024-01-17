@@ -12,7 +12,10 @@ def change_file_name( isinstance, filename):
 
 
 class Admin(AbstractUser):
-
+    ROLES = (
+        ("admin","admin"),
+        ("cashier","cashier"),
+    )
     phone = models.CharField(validators=[
         validators.MaxLengthValidator(13 , message="Telefon raqam noto'g'ri") ,
         validators.MinLengthValidator(9 , message="Telefon raqam noto'g'ri") ,
@@ -22,6 +25,9 @@ class Admin(AbstractUser):
         validators.FileExtensionValidator(allowed_extensions=['jpg',"png" ,"jpeg","gif"] ,
                                           message="Ruxsat berilmagan format")
     ])
+    position = models.CharField(max_length=15, choices=ROLES,
+                               default="admin")
+
 
     class Meta:
         verbose_name = "Admin"
