@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "main",
+    "finance.apps.FinanceConfig",
     "django_cleanup",
     "crispy_forms",
     "crispy_bootstrap4",

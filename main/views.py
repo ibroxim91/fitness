@@ -56,7 +56,7 @@ class HomeView(View):
             views = views + 1
             request.session["views"] = views
             request.session.save()
-        response = render(request, "index.html",{"views":views,} )
+        response = render(request, "index.html",{"views":views,"page_":"home"} )
      
         # response.set_cookie("views",views , max_age=15)
         return response
@@ -64,13 +64,13 @@ class HomeView(View):
 class ClientView(View):
     def get(self, request):
         residents = Resident.objects.all()
-        return render(request, "clients.html" ,{"residents":residents})
+        return render(request, "clients.html" ,{"residents":residents,"page_":"clients_"})
 
 
 class TarifsView(View):
     def get(self, request):
         tarifs = Tariff.objects.all()
-        return render(request, "tarifs.html" ,{"tarifs_":tarifs})
+        return render(request, "tarifs.html" ,{"tarifs_":tarifs,"page_":"tarifs"})
     
 
 class AddClientView(CreateView):
