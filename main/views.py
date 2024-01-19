@@ -56,9 +56,7 @@ class HomeView(MyPermissionControl, View):
     permission_denied_message = "You do not have permission to"   
 
     def get(self, request):
-        print()
-        print( request.user.position )
-        print()
+   
         views = request.session.get("views")
         if views is  None:
             views = 1
