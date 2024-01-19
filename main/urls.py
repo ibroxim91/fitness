@@ -3,6 +3,7 @@ from django.urls import path
 
 
 
+
 urlpatterns = [
      path("latest/", LatestEntriesFeed()),
     path('', HomeView.as_view(), name="home"  ),
@@ -13,4 +14,6 @@ urlpatterns = [
     path('update_client/<int:pk>', UpdateClientView.as_view(), name="update_client"  ),
 
     path('delete_client/<int:pk>', delete_client, name="delete_client"  ),
+    path('login', LoginView.as_view(), name="login"  ),
+    path('logout', LogoutView.as_view(), name="logout"  ),
 ]

@@ -5,7 +5,7 @@ from django.views.generic import CreateView,UpdateView,DeleteView
 from locals import lang_packages
 import datetime
 from datetime import timedelta
-from .models import Resident,Tariff
+from .models import Admin, Resident,Tariff
 # Create your views here.
 today = datetime.datetime.now()
 end = today + timedelta(seconds=15)
@@ -16,6 +16,7 @@ import json
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from .my_permissions import MyPermissionControl
+from django.contrib.auth import authenticate, login, logout
 
 # @user_passes_test(lambda user: user.is_superuser)
 # @permission_required("main.add_resident")
@@ -56,7 +57,7 @@ class HomeView(MyPermissionControl, View):
     permission_denied_message = "You do not have permission to"   
 
     def get(self, request):
-   
+
         views = request.session.get("views")
         if views is  None:
             views = 1
@@ -129,3 +130,25 @@ class UpdateClientView(MyPermissionControl,UpdateView):
 
     # resident = Resident.objects.get(id=1)
     # form = UpdateClientViewForm(isinstance=resident)
+
+
+class LoginView(View):
+    def get(self,request):
+        return render(request, 'login.html')
+    
+    def post(self, request):
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        if not Admin.objects.filter(username=username).exists():
+            return redirect('/login')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        return redirect('/login')
+
+
+class LogoutView(View):
+    def get(self,request):
+        logout(request)
+        return redirect("/login")        

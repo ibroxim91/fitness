@@ -11,7 +11,7 @@ class MyPermissionControl(PermissionRequiredMixin):
 
     def handle_no_permission(self) -> HttpResponseRedirect:
         user = self.request.user
-     
+        
         if not user.is_authenticated:
             return redirect("/login")
         if user.position == 'cashier':

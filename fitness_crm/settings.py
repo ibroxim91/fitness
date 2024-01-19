@@ -93,6 +93,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'fitness_crm.wsgi.application'
 SESSION_COOKIE_AGE = 2500000
 
+LOGOUT_URL = '/login'
+
 LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = '/'
 
